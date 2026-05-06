@@ -1,0 +1,17 @@
+{
+  "repo": "summit-trade-orderbook-mesh",
+  "thresholds": {
+    "signal": 4,
+    "slack": 1,
+    "confidence": 1,
+    "drag": 4,
+    "ship": 194,
+    "watch": 118
+  },
+  "terms": [
+    "spread pressure",
+    "fill risk",
+    "portfolio drift",
+    "quote width"
+  ]
+}
