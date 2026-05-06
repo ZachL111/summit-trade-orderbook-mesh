@@ -1,0 +1,73 @@
+{
+  "repo": "summit-trade-orderbook-mesh",
+  "language": "Zig",
+  "category": "Trading systems",
+  "goal": "Design a Zig verification harness for orderbook systems, covering event replay, fixture event logs, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "spread pressure",
+      "fill risk",
+      "portfolio drift",
+      "quote width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "spread pressure",
+      "signal": 40,
+      "slack": 43,
+      "drag": 10,
+      "confidence": 67,
+      "score": 160,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "fill risk",
+      "signal": 63,
+      "slack": 41,
+      "drag": 27,
+      "confidence": 88,
+      "score": 174,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "portfolio drift",
+      "signal": 74,
+      "slack": 27,
+      "drag": 18,
+      "confidence": 80,
+      "score": 201,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "quote width",
+      "signal": 78,
+      "slack": 27,
+      "drag": 20,
+      "confidence": 91,
+      "score": 214,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "spread pressure",
+      "signal": 60,
+      "slack": 40,
+      "drag": 25,
+      "confidence": 69,
+      "score": 154,
+      "lane": "ship"
+    }
+  ]
+}

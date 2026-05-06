@@ -1,67 +1,40 @@
 # summit-trade-orderbook-mesh
 
-`summit-trade-orderbook-mesh` treats trading systems as a local verification problem. The Zig implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`summit-trade-orderbook-mesh` explores trading systems with a small Zig codebase and local fixtures. The technical goal is to design a Zig verification harness for orderbook systems, covering event replay, fixture event logs, and failure-oriented tests.
 
-## Summit Trade Orderbook Mesh Checkpoints
+## Use Case
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how spread pressure and portfolio drift should influence a review result.
 
-## Useful Pieces
+## Summit Trade Orderbook Mesh Review Notes
 
-- Includes extended examples for fills, including `surge` and `degraded`.
-- Documents portfolio pressure tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+For a quick review, compare `quote width` with `spread pressure` before reading the middle cases.
 
-## What This Is For
+## Highlights
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+- `fixtures/domain_review.csv` adds cases for spread pressure and fill risk.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/summit-trade-orderbook-walkthrough.md` walks through the case spread.
+- The Zig code includes a review path for `quote width` and `spread pressure`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Project Layout
+## Code Layout
 
-- `src`: primary implementation
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Architecture Notes
+The Zig code keeps the review rule close to the tests.
 
-The design is intentionally direct: parse or construct a signal, score it, classify it, and verify the expected branch. This makes the repository useful for studying trading systems behavior without needing a service or database unless the language project itself is SQL. The Zig version uses compile-time constants and native test blocks for fast local checks.
-
-## Local Workflow
+## Run The Check
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Regression Path
 
-## Case Study
+The check exercises the source code and the review fixture. `recovery` is the high score at 214; `stale` is the low score at 154.
 
-The examples are meant to be readable before they are exhaustive. They cover enough variation to show how latency and risk can pull a decision below the threshold.
+## Future Work
 
-## Quality Gate
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Scope
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Expansion Ideas
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more trading systems fixture that focuses on a malformed or borderline input.
-
-## Tooling
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.
