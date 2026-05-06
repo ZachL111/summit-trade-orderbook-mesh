@@ -1,0 +1,32 @@
+{
+  "index": 374,
+  "phase": 2,
+  "batch": 42,
+  "name": "summit-trade-orderbook-mesh",
+  "planned_name": "summit-trade-orderbook-mesh",
+  "language": "Zig",
+  "category": "Trading systems",
+  "goal": "Design a Zig verification harness for orderbook systems, covering event replay, fixture event logs, and failure-oriented tests.",
+  "repository_url": "https://github.com/ZachL111/summit-trade-orderbook-mesh",
+  "verification_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+  "model": {
+    "inputs": [
+      "demand",
+      "capacity",
+      "latency",
+      "risk",
+      "weight"
+    ],
+    "threshold": 181,
+    "risk_penalty": 5,
+    "latency_penalty": 3,
+    "weight_bonus": 5,
+    "decision_rule": "accept when score is greater than or equal to threshold, otherwise review"
+  },
+  "quality_gates": [
+    "readme constraint scan",
+    "fixture presence check",
+    "metadata JSON parse",
+    "language verifier"
+  ]
+}
